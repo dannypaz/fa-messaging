@@ -1,0 +1,2 @@
+defmodule FutureAdvisorMessaging do
+end
