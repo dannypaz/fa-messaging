@@ -15,6 +15,9 @@
 defmodule FutureAdvisorMessaging.Router do
   use Trot.Router
 
+  defmodule ParamsMissingError do
+  end
+
   get "/" do
     {200, %{"success" => "true", "status" => "Service is running"}}
   end
@@ -23,20 +26,21 @@ defmodule FutureAdvisorMessaging.Router do
     {:ok, data, _none} = Plug.Conn.read_body(conn)
     # {:ok, data} = JSX.decode(data)
 
-    data
+    formatted_data = data
     |> FutureAdvisorMessaging.Http.log_request
     |> FutureAdvisorMessaging.Http.decode_json
     |> format_data
-    |> validate_sms_request
-    |> FutureAdvisorMessaging.Sms.send_to_numbers
 
-    # we can add a handler here to return data that
-    # we need
-    {200, %{"success" => "true"}}
+    FutureAdvisorMessaging.Sms.send_to_numbers(formatted_data)
+    |> send_response
   end
 
-  defp validate_sms_request({numbers, message}) do
-    {numbers, message}
+  defp send_response({:ok, status}) do
+    {200, %{"success" => status}}
+  end
+
+  defp send_response({:error, message}) do
+    {400, %{"error" => message}}
   end
 
   defp format_data(res) do
