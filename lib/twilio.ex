@@ -1,6 +1,6 @@
 defmodule FutureAdvisorMessaging.Twilio do
   @twilio_number "+15867899278"
-  
+
   def create(to, body) do
     {twilio_token, twilio_sid, twilio_msid, twilio_sms_url} = twilio_info()
 

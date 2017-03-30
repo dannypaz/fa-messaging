@@ -43,5 +43,5 @@ defmodule FutureAdvisorMessaging.Router do
     {res["phone_numbers"], res["message"]}
   end
 
-  use Trot.NotFound
+  import_routes Trot.NotFound
 end

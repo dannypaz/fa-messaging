@@ -7,7 +7,7 @@ Application.put_env(:future_advisor_messaging, :twilio_token, System.get_env("TW
 Application.put_env(:future_advisor_messaging, :twilio_msid, System.get_env("TWILIO_MESSAGE_ACCOUNT_SID"))
 Application.put_env(:future_advisor_messaging, :twilio_sms_url, System.get_env("TWILIO_SMS_URL"))
 
-config :trot, :port, 4001
+config :trot, :port, 1337
 config :trot, :router, FutureAdvisorMessaging.Router
 
 # This configuration is loaded before any dependency and is restricted
