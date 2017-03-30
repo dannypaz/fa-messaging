@@ -4,7 +4,7 @@ defmodule FutureAdvisorMessaging.Sms do
       String.trim(message) == "" ->
         {:error, "Message cannot be blank."}
       list_empty?(numbers) ->
-        {:error, "Must provide atleast one (1) valid phone number."}
+        {:error, "Must provide at least one (1) valid phone number."}
       true ->
         Enum.each(numbers, fn(x) -> send_to_number(x, message) end)
         {:ok, "Total: Sent:"}
