@@ -16,7 +16,7 @@ defmodule FutureAdvisorMessaging.Router do
   use Trot.Router
 
   get "/" do
-    {200, %{"success" => "true", "status" => "Here is the service test"}}
+    {200, %{"success" => "true", "status" => "Service is running"}}
   end
 
   post "/send" do
@@ -24,43 +24,24 @@ defmodule FutureAdvisorMessaging.Router do
     # {:ok, data} = JSX.decode(data)
 
     data
-    |> log_request
-    |> decode_json
+    |> FutureAdvisorMessaging.Http.log_request
+    |> FutureAdvisorMessaging.Http.decode_json
     |> format_data
-    |> send_sms_to_numbers
+    |> validate_sms_request
+    |> FutureAdvisorMessaging.Sms.send_to_numbers
 
     # we can add a handler here to return data that
     # we need
     {200, %{"success" => "true"}}
   end
 
-  defp log_request(data) do
-    IO.inspect data
-    data
-  end
-
-  defp decode_json(data) do
-    Poison.decode!(data)
+  defp validate_sms_request({numbers, message}) do
+    {numbers, message}
   end
 
   defp format_data(res) do
     {res["phone_numbers"], res["message"]}
   end
 
-  defp send_sms_to_numbers({numbers, message}) do
-    Enum.each(numbers, fn(x) -> send_sms_to_number(x, message) end)
-  end
-
-  defp send_sms_to_number(user_phone, message) do
-    IO.puts "Phone: #{user_phone}"
-    IO.puts "Message: #{message}"
-
-    FutureAdvisorMessaging.Http.create(
-      "+15867899278",
-      user_phone,
-      message
-    )
-  end
-
-  use Trot.NotFound
+  import_routes Trot.NotFound
 end
