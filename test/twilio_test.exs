@@ -1,6 +1,5 @@
 defmodule FutureAdvisorMessagingHttpTest do
   use ExUnit.Case
-  doctest FutureAdvisorMessaging.Twilio
 
   # Init
   Application.put_env(:future_advisor_messaging, :twilio_sid, "TEST")
@@ -14,6 +13,6 @@ defmodule FutureAdvisorMessagingHttpTest do
 
   test "request_key is set correctly" do
     url = FutureAdvisorMessaging.Twilio.request_url
-    asset 1 + 1 == 2 
+    asset 1 + 1 == 2
   end
 end

@@ -7,8 +7,12 @@ defmodule FutureAdvisorMessaging.Sms do
         {:error, "Must provide atleast one (1) valid phone number."}
       true ->
         Enum.each(numbers, fn(x) -> send_to_number(x, message) end)
-        {:ok, "true"}
+        {:ok, "Total: Sent:"}
     end
+  end
+
+  defp send_to_number("", _message) do
+    {:error, "number cannot be blank"}
   end
 
   defp send_to_number(user_phone, message) do
@@ -16,8 +20,7 @@ defmodule FutureAdvisorMessaging.Sms do
   end
 
   defp list_empty?(list) do
-    first_num = list |> List.first |> String.trim
-    last_num = list |> List.last |> String.trim
-    first_num == "" && last_num == ""
+    numbers = list |> List.first
+    numbers == nil
   end
 end
