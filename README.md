@@ -8,7 +8,7 @@ Stateless micro-service for handling batch SMS message sending. We currently use
 2. Install kiex, an elixir version manager
 3. Install the correct elixir version (you can find the version in .elixir-version)
 
-#### Before you being - detailed
+#### Before you begin - detailed
 
 You will need to install Erlang and Elixir to run the project. (This should be containerized later).
 
@@ -30,7 +30,15 @@ Afterwards, check the version in `.elixir-version` and install it with the follo
 
 ```
 kiex install <elixir-version>
+kiex use 1.4.2
+mix deps.get
+mix compile
+mix trot.server
 ```
+
+## Running the project
+
+To run the server: `mix trot.server` and navigate to [http://localhost:1337](http://localhost:1337)
 
 ## Development setup
 

@@ -5,6 +5,10 @@ use Mix.Config
 # Set some environment here
 # System.get_env("ENVIRONMENT")
 
+Application.put_env(:future_advisor_messaging, :twilio_sid, System.get_env("TWILIO_ACCOUNT_SID"))
+Application.put_env(:future_advisor_messaging, :twilio_token, System.get_env("TWILIO_AUTH_TOKEN"))
+Application.put_env(:future_advisor_messaging, :twilio_msid, System.get_env("TWILIO_MESSAGE_ACCOUNT_SID"))
+
 config :trot, :port, 1337
 config :trot, :router, FutureAdvisorMessaging.Router
 
