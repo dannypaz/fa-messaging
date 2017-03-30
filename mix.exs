@@ -15,7 +15,7 @@ defmodule FutureAdvisorMessaging.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :exjsx, :plug]]
+    [extra_applications: [:logger]]
   end
 
   # Dependencies can be Hex packages:
@@ -35,7 +35,6 @@ defmodule FutureAdvisorMessaging.Mixfile do
   defp deps do
     [{:httpoison, "~> 0.8.0"},
      {:poison, "~> 2.2", override: true},
-     {:trot, github: "hexedpackets/trot"},
-     {:exjsx, "~> 4.0"}]
+     {:trot, github: "hexedpackets/trot"}]
   end
 end
