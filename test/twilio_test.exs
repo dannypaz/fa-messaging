@@ -1,19 +1,35 @@
-defmodule FutureAdvisorMessagingHttpTest do
+defmodule FutureAdvisorMessagingTwilioTest do
   use ExUnit.Case
 
-  # Init
-  # Application.put_env(:future_advisor_messaging, :twilio_sid, "TEST")
-  # Application.put_env(:future_advisor_messaging, :twilio_token, "TEST")
+  import Mock
 
-  test "auth_key is set correctly" do
-    {key, key2} = {"TEST", "TEST"}
-    auth_key = FutureAdvisorMessaging.Twilio.auth_key(key, key2)
-    assert auth_key == [basic_auth: {key, key2}]
+  test "create" do
   end
 
-  # test "url is set correctly" do
-  #   {endpoint, key} = {"ENDPOINT", "TEST"}
-  #   url = FutureAdvisorMessaging.Twilio.request_url(endpoint, key)
-  #   assert url ==
-  # end
+  test "generate_form_data" do
+    {to, body, msid} = {"5551231234", "Test Message", "MSID"}
+    {type, result} = FutureAdvisorMessaging.Twilio.generate_form_data(to, body, msid)
+
+    assert type == :form
+    assert result[:To] == to
+    assert result[:Body] == body
+    assert result[:MessagingServiceSid] == msid
+  end
+
+  test "generate_request_url works correctly" do
+    {endpoint, key} = {"ENDPOINT", "TEST"}
+    url = FutureAdvisorMessaging.Twilio.generate_request_url(endpoint, key)
+
+    assert String.contains?(url, endpoint) == true
+    assert String.contains?(url, key) == true
+  end
+
+  test "send_request" do
+    {url, form, sid, token} = {"URL", "FORMDATA", "SID", "TOKEN"}
+
+    with_mock HTTPoison, [post: fn(post_url, data, _opts, auth) -> :success end] do
+      result = FutureAdvisorMessaging.Twilio.send_request({url, form}, sid, token)
+      assert result == :success
+    end
+  end
 end

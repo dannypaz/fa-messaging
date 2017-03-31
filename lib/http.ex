@@ -15,7 +15,7 @@ defmodule FutureAdvisorMessaging.Http do
   # response[:my_key]
   #
   def process_response_body(body) do
-    IO.inspect "Body: #{body}"
+    IO.inspect "Response Body: #{body}"
 
     body
     |> decode_json

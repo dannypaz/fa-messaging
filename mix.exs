@@ -35,6 +35,7 @@ defmodule FutureAdvisorMessaging.Mixfile do
   defp deps do
     [{:httpoison, "~> 0.8.0"},
      {:poison, "~> 2.2", override: true},
-     {:trot, github: "hexedpackets/trot"}]
+     {:trot, github: "hexedpackets/trot"},
+     {:mock, "~> 0.2.0", only: :test}]
   end
 end
