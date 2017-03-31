@@ -7,6 +7,7 @@ Stateless micro-service for handling batch SMS message sending. We currently use
 1. Install erlang through homebrew
 2. Install kiex, an elixir version manager
 3. Install the correct elixir version (you can find the version in .elixir-version)
+4. Create a `.env` with correct keys (listed below)
 
 #### Before you begin - detailed
 
@@ -26,21 +27,31 @@ curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
 
 This command was taken from kiex docs on March 29th 2017. You can find more info [here](https://github.com/taylor/kiex).
 
-Afterwards, check the version in `.elixir-version` and install it with the following:
+Once kiex is installed, we can now install elixir. The current Elixir version of this project is located in `.elixir-version`. You may be prompted with questions asking if you want to install something "Y/n". Select Yes. (this may only be applicable for "brand spankin' new" Elixir installations)
 
 ```
-kiex install <elixir-version>
+kiex install 1.4.2
 kiex use 1.4.2
 mix deps.get
 mix compile
-mix trot.server
 ```
 
-## Running the project
+Once these steps are completed, you will then have a compiled EX project (located in `/_build`). We need to load environment variables which are used for our Twilio interface. Either copy/rename the `.env-test` file at the root of the project OR add the following keys to a `.env` file at the root of the project:
 
-To run the server: `mix trot.server` and navigate to [http://localhost:1337](http://localhost:1337)
+```
+export TWILIO_ACCOUNT_SID=<your-twilio-account-sid>
+export TWILIO_AUTH_TOKEN=<your-twilion-auth-token>
+export TWILIO_MESSAGE_ACCOUNT_SID=<your-message-sid>
+export TWILIO_SMS_URL=https://api.twilio.com/2010-04-01/Accounts/
+```
 
-## Development setup
+Load the environment variables with `source .env` and NOW you can safely run the server:
+
+```
+mix.trot.server
+```
+
+Finally, navigate to [http://localhost:1337](http://localhost:1337) and you should receive confirmation that the service is running.
 
 ### Development Tips
 
@@ -57,4 +68,6 @@ When importing libraries, beginning with Elixir 1.4, you no longer have to speci
 
 Please see this [article](http://elixir-lang.org/blog/2017/01/05/elixir-v1-4-0-released/) for more info.
 
-IF YOU EVER RECEIVE A :BADARGS error, it is because you have no loaded environment variables
+**IF YOU EVER RECEIVE :badargs errors, it might be caused by not having environment variables loaded in your terminal session**
+
+To load ENV variables, simply run `source .env`. You do have a `.env` file, right?
