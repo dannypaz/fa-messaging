@@ -27,7 +27,7 @@ defmodule FutureAdvisorMessagingTwilioTest do
   test "send_request" do
     {url, form, sid, token} = {"URL", "FORMDATA", "SID", "TOKEN"}
 
-    with_mock HTTPoison, [post: fn(post_url, data, _opts, auth) -> :success end] do
+    with_mock HTTPoison, [post: fn(_url, _data, _opts, _auth) -> :success end] do
       result = FutureAdvisorMessaging.Twilio.send_request({url, form}, sid, token)
       assert result == :success
     end
