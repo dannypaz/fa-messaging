@@ -4,22 +4,35 @@ defmodule FutureAdvisorMessaging.Twilio do
   def create(to, body) do
     {twilio_token, twilio_sid, twilio_msid, twilio_sms_url} = twilio_info()
 
-    {:ok, response} = HTTPoison.post(
-      request_url(twilio_sms_url, twilio_sid),
-      {:form, ["From": @twilio_number, "To": to, "Body": body, "MessagingServiceSid": twilio_msid]},
-      [],
-      [ hackney: auth_key(twilio_sid, twilio_token) ])
+    url = generate_request_url(twilio_sms_url, twilio_sid)
+    form_data = generate_form_data(to, body, twilio_msid)
 
-    response.body
+    {url, form_data}
+    |> send_request(twilio_sid, twilio_token)
+    |> get_response_body
     |> FutureAdvisorMessaging.Http.process_response_body
   end
 
-  def auth_key(sid, token) do
-    [basic_auth: {sid, token}]
+  def generate_form_data(to, body, msid) do
+    {:form, ["From": @twilio_number, "To": to, "Body": body, "MessagingServiceSid": msid]}
   end
 
-  def request_url(endpoint, sid) do
+  def generate_request_url(endpoint, sid) do
     "#{endpoint}#{sid}/Messages.json"
+  end
+
+  def send_request({url, form_data}, sid, token) do
+    HTTPoison.post(url, form_data, [], auth_key(sid, token))
+  end
+
+  defp get_response_body({:ok, res}), do: res.body
+  defp get_response_body({:error, res}) do
+    # Handle the error somehow
+    res.body
+  end
+
+  defp auth_key(sid, token) do
+    [hackney: [basic_auth: {sid, token}]]
   end
 
   defp twilio_info do
