@@ -56,3 +56,5 @@ Tests are located in /test and include test helpers (ExUnit). To run tests, use 
 When importing libraries, beginning with Elixir 1.4, you no longer have to specify third party dependencies in the mix file under `application`.
 
 Please see this [article](http://elixir-lang.org/blog/2017/01/05/elixir-v1-4-0-released/) for more info.
+
+IF YOU EVER RECEIVE A :BADARGS error, it is because you have no loaded environment variables
