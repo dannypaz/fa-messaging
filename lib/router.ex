@@ -35,8 +35,8 @@ defmodule FutureAdvisorMessaging.Router do
     |> send_response
   end
 
-  defp send_response({:ok, status}) do
-    {200, %{"success" => status}}
+  defp send_response({:ok, {sent, tried}}) do
+    {200, %{"sent" => sent, "tried" => tried}}
   end
 
   defp send_response({:error, message}) do
