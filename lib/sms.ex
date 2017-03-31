@@ -1,7 +1,7 @@
 defmodule FutureAdvisorMessaging.Sms do
   def send_to_numbers({numbers, message}) do
     cond do
-      String.trim(message) == "" ->
+      blank_message?(message) ->
         {:error, "Message cannot be blank."}
       list_empty?(numbers) ->
         {:error, "Must provide at least one (1) valid phone number."}
@@ -37,5 +37,10 @@ defmodule FutureAdvisorMessaging.Sms do
   defp list_empty?(list) do
     numbers = list |> List.first
     numbers == nil
+  end
+
+  defp blank_message?(message) do
+    result = message |> String.trim
+    result == ""
   end
 end
