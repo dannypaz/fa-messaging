@@ -4,8 +4,6 @@ defmodule FutureAdvisorMessaging.Twilio do
   def create(to, body) do
     {twilio_token, twilio_sid, twilio_msid, twilio_sms_url} = twilio_info()
 
-    IO.puts "HERE"
-
     {:ok, response} = HTTPoison.post(
       request_url(twilio_sms_url, twilio_sid),
       {:form, ["From": @twilio_number, "To": to, "Body": body, "MessagingServiceSid": twilio_msid]},
